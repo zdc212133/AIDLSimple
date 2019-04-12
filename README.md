@@ -83,8 +83,10 @@ public class MainActivity extends AppCompatActivity {
         }
     };
 }
+
 这里只是简单实现，在开发中，如果跨两个应用进行通信，则需要把aidl文件Copy到另外一个项目中进行Service的实现
-需要注意的是，
+需要注意的是
+
 1，在传递对象时，需要通过Parcelable进行序列化，例如如下City
 import android.os.Parcel;
 import android.os.Parcelable;
@@ -154,10 +156,15 @@ public class City implements Parcelable {
         return "{ name:"+name+",areaSize:"+areaSize+"}";
     }
 }
+
 2，创建一个名为实体类一样的aidl文件，删除里面的方法添加parcelable 加实体类名，如下：
 parcelable City;
+
 3，创建一个管理类的aidl文件，添加方法，并倒入该实体类，在添加方法时，注意aidl接口的规则需要在参数前，添加 in，out，intout三个标示符号，代表的是流的方向
+
 in ，代表，客户端流向服务端，表示该对象是从客户端传向服务端，在服务端修改这个对象不会对客户端输入的对象产生影响
+
 out，服务端流向客户端，数据只能从服务端影响客户端，即客户端输入这个参数时，服务端并不能获取到客户端的具体实例中的数据，而是生成一个默认数据，
 但是服务端对这个默认数据的修改会影响到客户端的这个类对象实例发生相应的改变
+
 inout，则是双向的
